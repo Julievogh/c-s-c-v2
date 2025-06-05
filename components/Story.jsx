@@ -7,7 +7,7 @@ export default function Story() {
       className="col-span-12 lg:col-start-2 lg:col-span-10 story-bg md:my-6"
     >
       <div className="relative max-w-6xl mx-auto   bg-[url('/imgs/ternetbg2.png')] bg-cover bg-no-repeat bg-center">
-        <div className="text-center p-24 space-y-8">
+        <div className="text-center p-6 sm:p-10 md:p-16 lg:p-24 space-y-8">
           <h2 className="font-display text-h2">The story</h2>
           <h3 className="font-display text-h3">
             More Than Just Food – A Cozy Invitation
