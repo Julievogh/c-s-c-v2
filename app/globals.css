@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap");
+
+/* ----------------------------- */
+/*        Font Imports          */
+/* ----------------------------- */
+
+@font-face {
+  font-family: "Recoleta";
+  src: url("/fonts/Recoleta-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Recoleta Alt";
+  src: url("/fonts/RecoletaAlt-Regular.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Recoleta Alt Bold";
+  src: url("/fonts/RecoletaAlt-Bold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dawning of a New Day";
+  src: url("/fonts/DawningofaNewDay.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ----------------------------- */
+/*        CSS Variables         */
+/* ----------------------------- */
+
+:root {
+  --background: var(--color-warm-white);
+  --foreground: var(--color-dark-espresso);
+
+  /* 🎨 Colors */
+  --color-pantone-2024: #fddbd3;
+  --color-pantone-2023: #ffd8ce;
+  --color-dark-espresso: #3d2623;
+  --color-warm-white: #f7f4f1;
+  --color-dark-green: #2b432f;
+  --color-light-green: #556b2f;
+  --color-deep-wine: #742c2b;
+  --color-soft-beige: #f2e2d4;
+  --color-terracotta: #d16d5c;
+  --color-sage-green: #b7c6ad;
+  --color-lighter-pantone: #fceae5;
+  --color-lighter-terracotta: #e8b2a3;
+  --color-golden: #d5a25f;
+
+  /* 🧵 Fonts */
+  --font-hero-family: "Recoleta Alt Bold", serif;
+  --font-display-family: "Recoleta", serif;
+  --font-subtitle-family: "Lora", serif;
+  --font-secondary-family: "Kaphama", cursive;
+  --font-body-family: "Karla", sans-serif;
+  --font-accent-family: "Dawning of a New Day", cursive;
+
+  /* 📏 Font Sizes */
+  --font-h1: 68px;
+  --font-h2: 48px;
+  --font-h3: 32px;
+  --font-h4: 24px;
+  --font-body-size: 18px;
+  --font-accent-size: 54px;
+  --font-button-size: 16px;
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+/* ----------------------------- */
+/*         Base Styles          */
+/* ----------------------------- */
+
+@layer base {
+  body {
+    font-family: var(--font-body-family);
+    font-size: var(--font-body-size);
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  h1 {
+    font-family: var(--font-hero-family);
+    font-size: 40px;
+  }
+
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 48px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 60px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: var(--font-h1);
+    }
+  }
+
+  h2 {
+    font-family: var(--font-display-family);
+    font-size: var(--font-h2);
+    font-weight: 800;
+  }
+
+  h3 {
+    font-family: var(--font-subtitle-family);
+    font-size: var(--font-h3);
+  }
+
+  h4,
+  h5 {
+    font-family: var(--font-display-family);
+  }
+
+  h4 {
+    font-size: var(--font-h4);
+  }
+
+  a {
+    font-family: var(--font-body-family);
+    font-size: var(--font-body-size);
+    color: var(--color-dark-green);
+    text-decoration: none;
+  }
+
+  .font-karla {
+    font-family: var(--font-body-family);
+  }
+
+  .font-accent {
+    font-family: var(--font-accent-family);
+    font-size: 24px;
+    color: var(--color-dark-green);
+  }
+
+  @media (min-width: 640px) {
+    .font-accent {
+      font-size: 32px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .font-accent {
+      font-size: var(--font-accent-size);
+    }
+  }
+
+  .button {
+    font-family: var(--font-display-family);
+    font-size: var(--font-button-size);
+  }
+
+  .ig-handle {
+    font-family: var(--font-hero-family);
+    font-size: 2rem;
+    color: var(--color-dark-green);
+    font-weight: 800;
+    margin-bottom: 3rem;
+  }
+}
+
+/* ----------------------------- */
+/*        Custom Utilities      */
+/* ----------------------------- */
+
+@layer utilities {
+  .btn {
+    @apply inline-block px-6 py-2 rounded-full font-medium transition-all;
+  }
+
+  .btn-primary {
+    @apply bg-[color:var(--color-light-green)] text-[color:var(--color-soft-beige)] hover:bg-[color:var(--color-dark-green)];
+  }
+
+  .btn-outline {
+    @apply border bg-[color:var(--color-light-green)] text-[color:var(--color-light-green)] bg-transparent hover:border-[color:var(--color-dark-green)] hover:text-[color:var(--color-dark-green)];
+  }
+
+  .btn-secondary {
+    @apply bg-[color:var(--color-golden)] text-[color:var(--color-soft-beige)] hover:bg-[color:var(--color-terracotta)];
+  }
+
+  .btn-secondary-outline {
+    @apply border bg-[color:var(--color-golden)] text-[color:var(--color-golden)] bg-transparent hover:border-[color:var(--color-terracotta)] hover:text-[color:var(--color-terracotta)];
+  }
+
+  .responsive-grid {
+    @apply grid gap-5 px-10;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-grid {
+      @apply grid-cols-12 gap-10 px-0;
+    }
+  }
+}
+
+/* ----------------------------- */
+/*         Dark Mode            */
+/* ----------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: var(--color-soft-beige);
+    --background: var(--color-dark-espresso);
+  }
+}
