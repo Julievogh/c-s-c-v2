@@ -20,13 +20,16 @@ export default function ContactForm() {
     setStatus("Sender...");
 
     try {
-      const res = await fetch("http://localhost:1337/api/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ data: form }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/messages`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: form }),
+        }
+      );
 
       if (res.ok) {
         setStatus("Besked sendt!");
