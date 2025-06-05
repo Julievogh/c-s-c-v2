@@ -23,7 +23,7 @@ export default function MobileMenu({ isOpen, onClose, scrolled }) {
             { href: "/calendar", label: "Pop-up Experience" },
             { href: "/fine-dining", label: "Fine-Dining" },
             { href: "/blog", label: "Blog" },
-            { href: "/fine-dining", label: "Your Event" },
+            { href: "/your-event", label: "Your Event" },
             { href: "/#story", label: "The Story" },
           ].map(({ href, label }) => (
             <Link

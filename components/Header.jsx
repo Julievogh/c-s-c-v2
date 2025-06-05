@@ -85,7 +85,7 @@ export default function Header() {
         {/* Desktop right links */}
         <div className="hidden md:flex items-center space-x-8">
           {[
-            { href: "/fine-dining", label: "Your Event" },
+            { href: "/your-event", label: "Your Event" },
             { href: "/#story", label: "The Story" },
           ].map(({ href, label }) => (
             <Link key={href} href={href} className="uppercase relative group">

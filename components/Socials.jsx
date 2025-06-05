@@ -29,16 +29,27 @@ export default function Socials() {
         </div>
 
         {/* Logos flush left */}
-        <div className="flex justify-start space-x-6">
-          <Image
-            src="/imgs/instalogo.png"
-            alt="Instagram"
-            width={60}
-            height={60}
-          />
-          <Image src="/imgs/fblogo.png" alt="Facebook" width={60} height={60} />
-          <Image src="/imgs/xlogo.png" alt="Twitter" width={60} height={60} />
-        </div>
+        <a
+          href="https://instagram.com/cozysocialclub"
+          className="text-[length:var(--font-h2)] inline-block mb-6"
+        >
+          {" "}
+          <div className="flex justify-start space-x-6">
+            <Image
+              src="/imgs/instalogo.png"
+              alt="Instagram"
+              width={60}
+              height={60}
+            />
+            <Image
+              src="/imgs/fblogo.png"
+              alt="Facebook"
+              width={60}
+              height={60}
+            />
+            <Image src="/imgs/xlogo.png" alt="Twitter" width={60} height={60} />
+          </div>
+        </a>
       </section>
     </div>
   );

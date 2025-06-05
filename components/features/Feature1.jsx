@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button/page";
 import { motion } from "framer-motion";
@@ -29,7 +29,9 @@ export default function Feature1() {
             feels special, effortless, and truly cozy.
           </p>
           <div className="flex justify-center lg:justify-start">
-            <Button variant="primary">Contact Us</Button>
+            <Link href="/contact-us">
+              <Button variant="primary">Contact Us</Button>
+            </Link>
           </div>
         </div>
 

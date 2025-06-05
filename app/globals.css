@@ -185,7 +185,7 @@ html {
 
 @layer utilities {
   .btn {
-    @apply inline-block px-6 py-2 rounded-full font-medium transition-all;
+    @apply inline-block px-6 py-2 rounded-full font-medium transition-all cursor-pointer;
   }
 
   .btn-primary {
@@ -193,7 +193,7 @@ html {
   }
 
   .btn-outline {
-    @apply border bg-[color:var(--color-light-green)] text-[color:var(--color-light-green)] bg-transparent hover:border-[color:var(--color-dark-green)] hover:text-[color:var(--color-dark-green)];
+    @apply border border-[color:var(--color-dark-green)] text-[color:var(--color-dark-green)] bg-transparent hover:bg-[color:var(--color-dark-green)] hover:text-white;
   }
 
   .btn-secondary {
