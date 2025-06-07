@@ -1,27 +1,51 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function YourEventPage() {
+export default function AccessPage() {
+  const [guestCode, setGuestCode] = useState("");
+  const router = useRouter();
+
+  const handleGuestAccess = () => {
+    if (guestCode === "cozy2025") {
+      router.push("/your-event/summer-party"); // Or dynamic slug
+    } else {
+      alert("Wrong code 😓");
+    }
+  };
+
+  const handleHostLogin = () => {
+    const password = prompt("Enter host password:");
+    if (password === "superhost") {
+      router.push("/your-event/summer-party"); // Host sees same page or a special one later
+    } else {
+      alert("Wrong password 😬");
+    }
+  };
+
   return (
-    <div className="min-h-screen grid place-items-center px-6 py-20 bg-[var(--color-warm-white)] text-center font-karla text-[var(--color-deep-wine)]">
-      <div className="space-y-12 max-w-2xl">
-        <Image
-          src="/imgs/logo.svg"
-          alt="Cozy Social Club Logo"
-          width={200}
-          height={200}
-          className="mx-auto"
-        />
+    <div className="max-w-md mx-auto py-16 px-6 space-y-6 text-center">
+      <h1 className="text-3xl font-bold">Enter Your Event</h1>
+      <p>Type your access code or login as host:</p>
 
-        <h1 className="text-4xl md:text-5xl font-semibold">
-          This page is being created
-        </h1>
+      <input
+        type="text"
+        placeholder="Guest Code"
+        value={guestCode}
+        onChange={(e) => setGuestCode(e.target.value)}
+        className="border p-2 rounded w-full"
+      />
 
-        <p className="text-lg md:text-xl">
-          We’re working on something special for this section.
-          <br />
-          Stay tuned and check back soon.
-        </p>
-      </div>
+      <button onClick={handleGuestAccess} className="btn btn-outline w-full">
+        Enter as Guest
+      </button>
+
+      <p>
+        Host?{" "}
+        <button onClick={handleHostLogin} className="underline text-blue-500">
+          Login here
+        </button>
+      </p>
     </div>
   );
 }
