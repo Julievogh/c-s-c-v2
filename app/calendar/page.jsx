@@ -8,38 +8,33 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function CalendarPage() {
-  // 1) default to first event’s month (fallback to current month)
-  const firstMonth = events.length
-    ? new Date(events[0].date).getMonth() + 1
-    : new Date().getMonth() + 1;
+  const currentMonth = new Date().getMonth() + 1;
+  const [month, setMonth] = useState(currentMonth);
+  const [view, setView] = useState("list");
 
-  const [month, setMonth] = useState(firstMonth);
-  const [view, setView] = useState("list"); // or "grid"
-
-  // 2) filter & sort by date
   const filtered = useMemo(() => {
-    const list = month
-      ? events.filter((e) => new Date(e.date).getMonth() + 1 === month)
-      : events;
+    const list =
+      month === 0
+        ? events
+        : events.filter((e) => new Date(e.date).getMonth() + 1 === month);
     return list.sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [month]);
 
   return (
-    <section className="col-span-12 py-16 px-6">
+    <section className="bg-[var(--color-warm-white)] text-[var(--color-dark-espresso)] font-karla py-16 px-6">
       <div>
         <Popups />
       </div>
-      <div className="px-6 py-12 max-w-5xl mx-auto space-y-8">
-        {/* — Controls — */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="font-display text-3xl">Calendar</h1>
 
-          <div className="flex items-center gap-4">
-            {/* Month selector */}
+      <div className="max-w-5xl mx-auto space-y-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <h1 className="font-display text-4xl">Upcoming Events</h1>
+
+          <div className="flex items-center gap-3">
             <select
               value={month}
               onChange={(e) => setMonth(+e.target.value)}
-              className="border p-2 rounded"
+              className="border rounded px-3 py-1 text-sm"
             >
               <option value={0}>All months</option>
               {Array.from({ length: 12 }, (_, i) => (
@@ -49,27 +44,29 @@ export default function CalendarPage() {
               ))}
             </select>
 
-            {/* View toggles */}
             <button
               onClick={() => setView("list")}
-              className={`px-3 py-1 rounded ${
-                view === "list" ? "bg-green-600 text-white" : "border"
-              }`}
+              className={`btn ${
+                view === "list"
+                  ? "btn-primary"
+                  : "border border-[var(--color-dark-green)] text-[var(--color-dark-green)]"
+              } text-sm px-3 py-1 rounded-full`}
             >
               List
             </button>
             <button
               onClick={() => setView("grid")}
-              className={`px-3 py-1 rounded ${
-                view === "grid" ? "bg-green-600 text-white" : "border"
-              }`}
+              className={`btn ${
+                view === "grid"
+                  ? "btn-primary"
+                  : "border border-[var(--color-dark-green)] text-[var(--color-dark-green)]"
+              } text-sm px-3 py-1 rounded-full`}
             >
               Grid
             </button>
           </div>
         </div>
 
-        {/* — Content — */}
         <AnimatePresence mode="wait">
           {filtered.length === 0 ? (
             <motion.p
@@ -87,15 +84,15 @@ export default function CalendarPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-4"
+              className="space-y-6"
             >
               {filtered.map((e) => (
                 <li
                   key={e.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between border p-4 rounded"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between border border-[var(--color-dark-green)] rounded-lg p-5 bg-white shadow-sm"
                 >
-                  <div>
-                    <span className="font-semibold">
+                  <div className="font-display text-lg">
+                    <span className="text-[var(--color-dark-green)] font-semibold">
                       {new Date(e.date).toLocaleDateString(undefined, {
                         day: "numeric",
                         month: "short",
@@ -105,10 +102,10 @@ export default function CalendarPage() {
                   </div>
                   <Link
                     href={`/events/${e.id}`}
-                    className={`mt-2 sm:mt-0 px-4 py-1 rounded text-sm ${
+                    className={`mt-2 sm:mt-0 text-sm rounded-full px-4 py-1 ${
                       e.status === "sold out"
                         ? "bg-gray-300 text-gray-700 cursor-not-allowed"
-                        : "bg-green-600 text-white"
+                        : "btn btn-primary"
                     }`}
                   >
                     {e.status === "sold out" ? "Sold Out" : "Read More"}
@@ -130,7 +127,7 @@ export default function CalendarPage() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: i * 0.1 }}
-                  className="border rounded-lg overflow-hidden shadow"
+                  className="rounded-lg overflow-hidden shadow border border-[var(--color-dark-green)] bg-white"
                 >
                   <div className="relative h-40">
                     <Image
@@ -142,17 +139,21 @@ export default function CalendarPage() {
                   </div>
                   <div className="p-4 space-y-2">
                     <h3 className="font-display text-lg">{e.title}</h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-[var(--color-dark-green)]">
                       {new Date(e.date).toLocaleDateString(undefined, {
                         day: "numeric",
                         month: "short",
-                        hour: "numeric",
-                        minute: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </p>
                     <Link
                       href={`/events/${e.id}`}
-                      className="inline-block px-4 py-1 bg-green-600 text-white rounded text-sm"
+                      className={`inline-block px-4 py-1 text-sm rounded-full ${
+                        e.status === "sold out"
+                          ? "bg-gray-300 text-gray-700 cursor-not-allowed"
+                          : "btn btn-primary"
+                      }`}
                     >
                       {e.status === "sold out" ? "Sold Out" : "Read More"}
                     </Link>

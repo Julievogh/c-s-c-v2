@@ -137,7 +137,6 @@ export default function ProductsPage() {
         />
       </div>
       <Socials />
-      <Footer className="mt-12" />
     </div>
   );
 }
