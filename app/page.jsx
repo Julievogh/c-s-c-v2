@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
+
 import Hero from "@/components/Hero";
 import Intro from "@/components/Intro";
 import Feature1 from "@/components/features/Feature1";
@@ -13,14 +16,27 @@ import Story from "@/components/Story";
 import Socials from "@/components/Socials";
 
 export default function Home() {
-  // A simple “reveal” variant for all sections
+  const [loading, setLoading] = useState(true);
+
   const reveal = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
-    <div className="grid-mobile grid-desktop">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="grid-mobile grid-desktop"
+    >
       <main className="row-start-2">
         {[
           Hero,
@@ -47,6 +63,6 @@ export default function Home() {
           </motion.section>
         ))}
       </main>
-    </div>
+    </motion.div>
   );
 }

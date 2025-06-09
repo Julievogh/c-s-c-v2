@@ -1,10 +1,11 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-
-export const revalidate = 0;
+import Loader from "@/components/Loader";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-
 export const dynamic = "force-dynamic";
 
 // ✅ Helper der sikrer vi ikke prepender Cloudinary-URL'er med localhost
@@ -13,27 +14,34 @@ function getImageUrl(path) {
   return path.startsWith("http") ? path : `${API_URL}${path}`;
 }
 
-export default async function BlogPage() {
-  let articles = [];
+export default function BlogPage() {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    const res = await fetch(
-      `${API_URL}/api/articles?populate=cover&sort=publishedAt:desc`,
-      { cache: "no-store" }
-    );
-    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-    const json = await res.json();
-    articles = json.data;
-  } catch (err) {
-    console.error("Fejl ved hentning af blogindlæg:", err);
-  }
+  useEffect(() => {
+    fetch(`${API_URL}/api/articles?populate=cover&sort=publishedAt:desc`, {
+      cache: "no-store",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Fetch-fejl");
+        return res.json();
+      })
+      .then((json) => setArticles(json.data))
+      .catch((err) => console.error("Fejl ved hentning af blogindlæg:", err))
+      .finally(() => setLoading(false));
+  }, []);
 
-  if (!articles.length) {
+  if (loading) return <Loader />;
+  if (!articles.length)
     return <main className="p-8">Ingen blogindlæg fundet.</main>;
-  }
 
   return (
-    <main className="bg-[color:var(--color-warm-white)]">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="bg-[color:var(--color-warm-white)]"
+    >
       <div className="grid grid-cols-12 px-4 lg:px-0">
         <div className="col-span-12 lg:col-span-10 lg:col-start-2">
           <h1 className="font-accent text-[var(--font-accent-size)] text-center mt-16">
@@ -197,6 +205,6 @@ export default async function BlogPage() {
           </section>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }

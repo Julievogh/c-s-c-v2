@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Socials from "@/components/Socials";
 import Footer from "@/components/Footer";
+import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 export const dynamic = "force-dynamic";
@@ -53,11 +55,16 @@ export default function ProductsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="p-8">Loading…</p>;
+  if (loading) return <Loader />;
   if (!products.length) return <p className="p-8">No products available</p>;
 
   return (
-    <div className="p-8 max-w-7xl mx-auto flex flex-col gap-16">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="p-8 max-w-7xl mx-auto flex flex-col gap-16"
+    >
       <div className="text-center max-w-2xl mx-auto">
         <p className="uppercase text-sm tracking-wide text-[var(--color-deep-wine)] font-semibold mb-2">
           Limited Edition · Made to Order
@@ -72,46 +79,64 @@ export default function ProductsPage() {
 
       <div className="h-0.5 bg-[var(--color-dark-green)]"></div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: {
+            transition: {
+              staggerChildren: 0.1,
+            },
+          },
+        }}
+      >
         {products.map((p) => (
-          <Link
+          <motion.div
             key={p.id}
-            href={`/webshop/${p.slug}`}
-            className="group block overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-200"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            <div className="relative w-full h-48 overflow-hidden">
-              <Image
-                src={p.image}
-                alt={p.title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="flex flex-col p-4 h-64">
-              <h2 className="text-lg font-semibold mb-2 group-hover:text-[var(--color-deep-wine)]">
-                {p.title}
-              </h2>
-              <p className="text-sm text-gray-600 whitespace-pre-line flex-grow">
-                {p.description}
-              </p>
-
-              {/* Farver som cirkler */}
-              <div className="flex gap-2 mt-2">
-                {p.colors.map((c) => (
-                  <span
-                    key={c.id}
-                    className="w-5 h-5 rounded-full border"
-                    title={c.name}
-                    style={{ backgroundColor: c.hex }}
-                  />
-                ))}
+            <Link
+              href={`/webshop/${p.slug}`}
+              className="group block overflow-hidden rounded-lg bg-white shadow-md hover:shadow-xl transition-shadow duration-200"
+            >
+              <div className="relative w-full h-48 overflow-hidden">
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
+              <div className="flex flex-col p-4 h-64">
+                <h2 className="text-lg font-semibold mb-2 group-hover:text-[var(--color-deep-wine)]">
+                  {p.title}
+                </h2>
+                <p className="text-sm text-gray-600 whitespace-pre-line flex-grow">
+                  {p.description}
+                </p>
 
-              <p className="text-xl font-bold mt-auto">{p.price} DKK</p>
-            </div>
-          </Link>
+                <div className="flex gap-2 mt-2">
+                  {p.colors.map((c) => (
+                    <span
+                      key={c.id}
+                      className="w-5 h-5 rounded-full border"
+                      title={c.name}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                </div>
+
+                <p className="text-xl font-bold mt-auto">{p.price} DKK</p>
+              </div>
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <div className="h-0.5 bg-[var(--color-dark-green)]"></div>
 
@@ -137,6 +162,6 @@ export default function ProductsPage() {
         />
       </div>
       <Socials />
-    </div>
+    </motion.div>
   );
 }
